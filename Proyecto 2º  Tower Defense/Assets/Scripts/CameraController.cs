@@ -16,6 +16,13 @@ public class CameraController : MonoBehaviour
     void Update()
     {
 
+        //deteccion gameOver
+        if(GameManager.gameIsOver)
+        {
+            this.enabled = false; //desactivamos directamente este componente, por lo tanto ya no habra movimiento de camara.
+            return;
+        }
+
         if (Input.GetKeyDown (KeyCode.Escape))
         {
             doMovement = !doMovement;

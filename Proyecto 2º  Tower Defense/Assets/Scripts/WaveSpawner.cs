@@ -29,7 +29,7 @@ public class WaveSpawner : MonoBehaviour
             doSpawn = !doSpawn;
         }
 
-        if (!doSpawn)
+        if (!doSpawn || GameManager.gameIsOver == true)
         {
             return;
         }
@@ -53,6 +53,7 @@ public class WaveSpawner : MonoBehaviour
     {
 
         waveIndex++;
+        PlayerStats.Rounds++;
 
         for (int i = 0; i < waveIndex; i++)
         {
