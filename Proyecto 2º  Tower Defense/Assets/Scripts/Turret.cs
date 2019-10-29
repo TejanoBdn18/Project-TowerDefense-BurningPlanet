@@ -5,10 +5,16 @@ using UnityEngine;
 public class Turret : MonoBehaviour
 {
 
+
+    public static Turret instance;
+
     private Transform target;
 
     [Header("Attributes")]
 
+    [SerializeField]
+    private float fuel = 100f;
+    public float fuelRate = 10f;
     public float fireRate = 1f;
     private float fireCountdown = 0f;
     public float range = 20f; //rango de la torreta
@@ -24,9 +30,48 @@ public class Turret : MonoBehaviour
     public Transform firePoint;
     public Transform firePoint2;
 
+    public PlayerStats playerStats;
+
+    public float elapsed;
+
+    public float Fuel {
+        get
+        {
+            return fuel;
+        }
+
+        set
+        {
+            fuel = value;
+
+            if(fuel == 300)
+            {
+                Debug.Log("Lo que sea");
+            }
+        }
+    }
+
+    private void Awake()
+    {
+        playerStats = GameObject.FindWithTag("GameMaster").GetComponent<PlayerStats>();
+    }
+
     void Start()
     {
-        InvokeRepeating("UpdateTarget", 0f, 0.5f); 
+
+        instance = this; 
+
+        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+
+        
+
+
+
+    }
+
+    public float GetFuel()
+    {
+        return fuel;
     }
 
     void UpdateTarget()
@@ -75,6 +120,39 @@ public class Turret : MonoBehaviour
         }
 
         fireCountdown -= Time.deltaTime;
+
+        //este elapsed ahora mismo solo se esta activando cuando la torreta pilla un target, en vez de todo el rato cada segundo
+        elapsed += Time.deltaTime;
+        if (elapsed >= 1f)
+        {
+            elapsed = elapsed % 1f;
+            TurretFuelDecrease();
+            TurretFuelIncrease();
+        }
+    }
+
+    public void TurretFuelDecrease()
+    {
+        Fuel -= fuelRate;
+        playerStats.PlayerFuelDecrease(fuelRate);
+        //Debug.Log(fuel + "  <--Turret Fuel");
+        //Debug.Log(playerStats.PlayerFuel + "  <--Your Fuel");
+    }
+
+
+    public void TurretFuelIncrease()
+    {
+
+        if(playerStats.PlayerFuel <= 0)
+        {
+            Debug.Log("No hay FUEL para la torreta");
+        }
+        else
+        {
+            Fuel = Fuel + fuelRate;
+        }      
+        //Debug.Log(fuel + "  <--Turret Fuel");
+        //Debug.Log(playerStats.PlayerFuel + "  <--Your Fuel");
     }
 
     void Shoot()

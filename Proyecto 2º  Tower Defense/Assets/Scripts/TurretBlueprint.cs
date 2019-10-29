@@ -8,6 +8,7 @@ public class TurretBlueprint
 
     public GameObject prefab;
     public int cost;
+    public float fuelPerTime;
 
 
 }

@@ -33,6 +33,11 @@ public class Enemy : MonoBehaviour
         PlayerStats.Money += value;
 
         Destroy(gameObject);
+
+      //  Turret t = new Turret();
+      //  t.Fuel = 100000;   //set
+
+       // float fuel = t.Fuel;   //get 
     }
        
 

@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
     public float scrollSpeed = 5f;
     public float minY = 10f;
     public float maxY = 80f;
-
+    
     void Update()
     {
 
@@ -63,4 +63,8 @@ public class CameraController : MonoBehaviour
         transform.position = pos;
 
     }
+}
+
+internal class playerStats_Script
+{
 }
